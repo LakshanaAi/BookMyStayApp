@@ -1,63 +1,77 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.Queue;
 
-/**
- * UseCase3InventorySetup
- * Version 3.1
- * Demonstrates centralized room inventory management using HashMap.
- */
+/* Reservation class */
+class Reservation {
+    private String guestName;
+    private String roomType;
 
-class RoomInventory {
-
-    private HashMap<String, Integer> inventory;
-
-    // Constructor to initialize room availability
-    public RoomInventory() {
-        inventory = new HashMap<>();
-
-        inventory.put("Single Room", 5);
-        inventory.put("Double Room", 3);
-        inventory.put("Suite Room", 2);
+    public Reservation(String guestName, String roomType) {
+        this.guestName = guestName;
+        this.roomType = roomType;
     }
 
-    // Method to get availability
-    public int getAvailability(String roomType) {
-        return inventory.getOrDefault(roomType, 0);
+    public String getGuestName() {
+        return guestName;
     }
 
-    // Method to update availability
-    public void updateAvailability(String roomType, int count) {
-        inventory.put(roomType, count);
-    }
-
-    // Display current inventory
-    public void displayInventory() {
-        System.out.println("===== Hotel Booking System v3.1 =====");
-        System.out.println("Current Room Inventory:");
-
-        for (Map.Entry<String, Integer> entry : inventory.entrySet()) {
-            System.out.println(entry.getKey() + " Available: " + entry.getValue());
-        }
+    public String getRoomType() {
+        return roomType;
     }
 }
 
+/* Booking Request Queue (FIFO) */
+class BookingRequestQueue {
+
+    private Queue<Reservation> queue = new LinkedList<>();
+
+    // Add request to queue
+    public void addRequest(Reservation reservation) {
+        queue.offer(reservation);
+    }
+
+    // Get next request (FIFO)
+    public Reservation getNextRequest() {
+        return queue.poll();
+    }
+
+    // Check pending requests
+    public boolean hasPendingRequests() {
+        return !queue.isEmpty();
+    }
+}
+
+/* Main Use Case 5 */
 public class BookMyStayApp {
 
     public static void main(String[] args) {
 
-        // Initialize inventory
-        RoomInventory inventory = new RoomInventory();
+        // Display application header
+        System.out.println("Booking Request Queue");
 
-        // Display inventory
-        inventory.displayInventory();
+        // Initialize booking queue
+        BookingRequestQueue bookingQueue = new BookingRequestQueue();
 
-        // Example update
-        System.out.println("\nUpdating Suite Room availability...");
+        // Create booking requests
+        Reservation r1 = new Reservation("Abhi", "Single");
+        Reservation r2 = new Reservation("Subha", "Double");
+        Reservation r3 = new Reservation("Vanmathi", "Suite");
 
-        inventory.updateAvailability("Suite Room", 4);
+        // Add requests to the queue
+        bookingQueue.addRequest(r1);
+        bookingQueue.addRequest(r2);
+        bookingQueue.addRequest(r3);
 
-        // Display updated inventory
-        System.out.println("\nUpdated Inventory:");
-        inventory.displayInventory();
+        // Display queued booking requests in FIFO order
+        while (bookingQueue.hasPendingRequests()) {
+            Reservation request = bookingQueue.getNextRequest();
+
+            System.out.println(
+                    "Processing Request -> Guest: "
+                            + request.getGuestName()
+                            + ", Room Type: "
+                            + request.getRoomType()
+            );
+        }
     }
 }
