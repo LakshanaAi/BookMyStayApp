@@ -1,29 +1,63 @@
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * UseCase1HotelBookingApp
- *
- * This class represents the entry point of the Hotel Booking application.
- * It demonstrates how a Java program starts execution and prints a
- * welcome message with application details.
- *
- * @author
- * @version 1.0
+ * UseCase3InventorySetup
+ * Version 3.1
+ * Demonstrates centralized room inventory management using HashMap.
  */
+
+class RoomInventory {
+
+    private HashMap<String, Integer> inventory;
+
+    // Constructor to initialize room availability
+    public RoomInventory() {
+        inventory = new HashMap<>();
+
+        inventory.put("Single Room", 5);
+        inventory.put("Double Room", 3);
+        inventory.put("Suite Room", 2);
+    }
+
+    // Method to get availability
+    public int getAvailability(String roomType) {
+        return inventory.getOrDefault(roomType, 0);
+    }
+
+    // Method to update availability
+    public void updateAvailability(String roomType, int count) {
+        inventory.put(roomType, count);
+    }
+
+    // Display current inventory
+    public void displayInventory() {
+        System.out.println("===== Hotel Booking System v3.1 =====");
+        System.out.println("Current Room Inventory:");
+
+        for (Map.Entry<String, Integer> entry : inventory.entrySet()) {
+            System.out.println(entry.getKey() + " Available: " + entry.getValue());
+        }
+    }
+}
 
 public class BookMyStayApp {
 
-    /**
-     * Main method - entry point of the Java application
-     * @param args command line arguments
-     */
     public static void main(String[] args) {
 
-        // Display welcome message and application information
-        System.out.println("======================================");
-        System.out.println(" Welcome to the Hotel Booking System ");
-        System.out.println(" Version: 1.0 ");
-        System.out.println("======================================");
+        // Initialize inventory
+        RoomInventory inventory = new RoomInventory();
 
-        System.out.println("Application started successfully.");
-        System.out.println("Thank you for using Hotel Booking System.");
+        // Display inventory
+        inventory.displayInventory();
+
+        // Example update
+        System.out.println("\nUpdating Suite Room availability...");
+
+        inventory.updateAvailability("Suite Room", 4);
+
+        // Display updated inventory
+        System.out.println("\nUpdated Inventory:");
+        inventory.displayInventory();
     }
 }
