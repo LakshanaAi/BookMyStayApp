@@ -1,29 +1,49 @@
-/**
- * UseCase1HotelBookingApp
- *
- * This class represents the entry point of the Hotel Booking application.
- * It demonstrates how a Java program starts execution and prints a
- * welcome message with application details.
- *
- * @author
- * @version 1.0
- */
-
 public class BookMyStayApp {
 
     /**
-     * Main method - entry point of the Java application
-     * @param args command line arguments
+     * Displays available rooms along with
+     * their details and pricing.
+     * <p>
+     * This method performs read-only access
+     * to inventory and room data.
      */
-    public static void main(String[] args) {
+        void searchAvailableRooms(
+            RoomInventory inventory,
+            Room singleRoom,
+            Room doubleRoom,
+            Room suiteRoom) {
+        public static void main (String[]args){
+            System.out.println("\n===== Available Rooms =====");
 
-        // Display welcome message and application information
-        System.out.println("======================================");
-        System.out.println(" Welcome to the Hotel Booking System ");
-        System.out.println(" Version: 1.0 ");
-        System.out.println("======================================");
+            // Single Room (read-only check)
+            int singleAvailable = inventory.getAvailableRooms(singleRoom.getType());
+            if (singleAvailable > 0) {
+                System.out.println("\nRoom Type : " + singleRoom.getType());
+                System.out.println("Price     : " + singleRoom.getPrice());
+                System.out.println("Amenities : " + singleRoom.getAmenities());
+                System.out.println("Available : " + singleAvailable);
+            }
 
-        System.out.println("Application started successfully.");
-        System.out.println("Thank you for using Hotel Booking System.");
+            // Double Room (read-only check)
+            int doubleAvailable = inventory.getAvailableRooms(doubleRoom.getType());
+            if (doubleAvailable > 0) {
+                System.out.println("\nRoom Type : " + doubleRoom.getType());
+                System.out.println("Price     : " + doubleRoom.getPrice());
+                System.out.println("Amenities : " + doubleRoom.getAmenities());
+                System.out.println("Available : " + doubleAvailable);
+            }
+
+            // Suite Room (read-only check)
+            int suiteAvailable = inventory.getAvailableRooms(suiteRoom.getType());
+            if (suiteAvailable > 0) {
+                System.out.println("\nRoom Type : " + suiteRoom.getType());
+                System.out.println("Price     : " + suiteRoom.getPrice());
+                System.out.println("Amenities : " + suiteRoom.getAmenities());
+                System.out.println("Available : " + suiteAvailable);
+            }
+
+            System.out.println("\n===========================\n");
+        }
     }
 }
+
